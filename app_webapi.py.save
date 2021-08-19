@@ -1,0 +1,47 @@
+from neuroner import neuromodel
+from flask import Flask,render_template,url_for,request,jsonify
+import jwt
+import datetime
+from functools import wraps
+
+app = Flask(__name__)
+app.config['SECRET_KEY']='Th1s1ss3cr3t'
+nn = neuromodel.NeuroNER()ztoken = jwt.encode({'public_id': '0123456789', 'exp' : datetime.datetime.utcnow() + datetime.timedelta(minutes=30)}, app.config['SECRET_KEY'])
+
+def token_required(f):  
+    @wraps(f)  
+    def decorator(*args, **kwargs):
+
+       token = None 
+
+       if 'x-access-tokens' in request.headers:  
+          token = request.headers['x-access-tokens'] 
+
+
+       if not token:  
+          return jsonify({'message': 'a valid token is missing'})   
+
+       data = jwt.decode(token, app.config['SECRET_KEY']) 
+       if data['public_id'] !=  '0123456789':
+          return jsonify({'message': 'token is invalid'})  
+
+       return f(*args,  **kwargs)  
+    return decorator 
+
+
+@app.route('/')
+def home():
+    return jsonify({'token' : token.decode('UTF-8')}) 
+
+
+@app.route('/predict')
+#@token_required
+def predict():
+    input_sentence = request.args.get('input', type=str)
+    tags = nn.predict(input_sentence)
+    for tag in tags:
+        input_sentence = input_sentence.replace(' '+tag['text'], ' [['+tag['type']+']] ')        
+    return input_sentence
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0',port=4000)

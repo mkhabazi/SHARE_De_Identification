@@ -1,0 +1,33 @@
+#phase 2 requirements
+pip
+pydicom
+#python3-opencv
+opencv-python
+pytesseract
+PyMuPDF==1.18.5
+#poppler-utils
+#pdf2image
+PyJWT
+click==7.1.2
+paddlepaddle
+paddleocr
+####################
+#phase 1 requirements
+#trying with tensorflow 2.0.0
+#tensorflow==2.0.0
+tensorflow==1.14.0
+Flask==1.1.2
+flask_restful
+networkx==2.2
+pycorenlp==0.3.0
+#absl-py
+more_itertools
+plumbum
+numpy==1.18.5
+pandas==1.0.5
+scipy==1.5.1
+scikit-learn==0.23.1
+matplotlib==3.3.0
+spacy
+PyJWT
+datetime

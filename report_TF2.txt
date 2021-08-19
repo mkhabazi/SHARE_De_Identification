@@ -1,0 +1,508 @@
+TensorFlow 2.0 Upgrade Script
+-----------------------------
+Converted 15 files
+Detected 16 issues that require attention
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+File: neuroner_old/prepare_pretrained_model.py
+--------------------------------------------------------------------------------
+neuroner_old/prepare_pretrained_model.py:75:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+-Solution: ..., save_format='h5')
+
+--------------------------------------------------------------------------------
+File: neuroner_old/train.py
+--------------------------------------------------------------------------------
+neuroner_old/train.py:71:29: ERROR: Using member tf.contrib.crf.viterbi_decode in deprecated module tf.contrib. tf.contrib.crf.viterbi_decode cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+-SOLUTION: tfa.text.viterbi_decode()
+
+--------------------------------------------------------------------------------
+File: neuroner_old/entity_lstm.py
+--------------------------------------------------------------------------------
+File "/home/ec2-user/AI-Master/neuroner/entity_lstm.py", line 79, in __init__ name="input_token_indices") File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/ops/array_ops.py", line 3282, in placeholderraise RuntimeError("tf.placeholder() is not compatible with "
+RuntimeError: tf.placeholder() is not compatible with eager execution.
+-Solution: add tf.compat.v1.disable_eager_execution()
+
+neuroner_old/entity_lstm.py:31:39: WARNING: Using member tf.contrib.rnn.CoupledInputForgetGateLSTMCell in deprecated module tf.contrib.rnn. (Manual edit required) tf.contrib.rnn.* has been deprecated, and widely used cells/functions will be moved to tensorflow/addons repository. Please check it there and file Github issues if necessary.
+-Solution: tf.compat.v1.nn.rnn_cell.LSTMCell()
+
+neuroner_old/entity_lstm.py:31:39: ERROR: Using member tf.contrib.rnn.CoupledInputForgetGateLSTMCell in deprecated module tf.contrib. tf.contrib.rnn.CoupledInputForgetGateLSTMCell cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+-Solution: tf.compat.v1.nn.rnn_cell.LSTMCell()
+
+initial_state[direction] = tf.nn.rnn_cell.LSTMStateTuple(c_states, AttributeError: module 'tensorflow._api.v2.nn' has no attribute 'rnn_cell'
+-Solution: tf.compat.v1.nn.rnn_cell.LSTMStateTuple(
+
+neuroner_old/entity_lstm.py:34:37: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+-Solution: ...,use_resource=False)
+
+neuroner_old/entity_lstm.py:36:39: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+-Solution: ...,use_resource=False)
+
+neuroner_old/entity_lstm.py:99:51: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+-Solution: ...,use_resource=False)
+
+neuroner_old/entity_lstm.py:103:38: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+-Solution: no changes
+
+neuroner_old/entity_lstm.py:119:43: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+-Solution: ...,use_resource=False)
+
+neuroner_old/entity_lstm.py:124:30: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+-Solution: no changes
+
+neuroner_old/entity_lstm.py:174:16: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+-Solution: ...,use_resource=False)
+
+neuroner_old/entity_lstm.py:190:16: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+-Solution: ...,use_resource=False)
+
+neuroner_old/entity_lstm.py:243:43: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+-Solution: ...,use_resource=False)
+
+neuroner_old/entity_lstm.py:248:36: ERROR: Using member tf.contrib.crf.crf_log_likelihood in deprecated module tf.contrib. tf.contrib.crf.crf_log_likelihood cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+-Solution: tfa.text.crf_log_likelihood(
+
+neuroner_old/entity_lstm.py:260:45: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+-Solution: tfa.text.crf_log_likelihood(
+
+--------------------------------------------------------------------------------
+File: neuroner_old/neuromodel.py
+--------------------------------------------------------------------------------
+neuroner_old/neuromodel.py:713:16: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+-Solution: ..., save_format='h5')
+
+================================================================================
+Detailed log follows:
+
+================================================================================
+================================================================================
+Input tree: 'neuroner_old/'
+================================================================================
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/prepare_pretrained_model.py'
+ outputting to 'neuroner/prepare_pretrained_model.py'
+--------------------------------------------------------------------------------
+
+55:9: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+56:22: INFO: Renamed 'tf.train.Saver' to 'tf.compat.v1.train.Saver'
+70:17: INFO: Renamed 'tf.assign' to 'tf.compat.v1.assign'
+75:8: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+145:9: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/train.py'
+ outputting to 'neuroner/train.py'
+--------------------------------------------------------------------------------
+
+71:29: ERROR: Using member tf.contrib.crf.viterbi_decode in deprecated module tf.contrib. tf.contrib.crf.viterbi_decode cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/utils_nlp.py'
+ outputting to 'neuroner/utils_nlp.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/brat_to_conll.py'
+ outputting to 'neuroner/brat_to_conll.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/__init__.py'
+ outputting to 'neuroner/__init__.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/entity_lstm.py'
+ outputting to 'neuroner/entity_lstm.py'
+--------------------------------------------------------------------------------
+
+16:9: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+19:30: INFO: Added keywords to args of function 'tf.shape'
+23:25: INFO: Added keywords to args of function 'tf.shape'
+29:17: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+31:39: WARNING: Using member tf.contrib.rnn.CoupledInputForgetGateLSTMCell in deprecated module tf.contrib.rnn. (Manual edit required) tf.contrib.rnn.* has been deprecated, and widely used cells/functions will be moved to tensorflow/addons repository. Please check it there and file Github issues if necessary.
+31:39: ERROR: Using member tf.contrib.rnn.CoupledInputForgetGateLSTMCell in deprecated module tf.contrib. tf.contrib.rnn.CoupledInputForgetGateLSTMCell cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+34:37: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+34:37: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+36:39: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+36:39: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+40:43: INFO: Renamed 'tf.contrib.rnn.LSTMStateTuple' to 'tf.nn.rnn_cell.LSTMStateTuple'
+44:32: INFO: Renamed 'tf.nn.bidirectional_dynamic_rnn' to 'tf.compat.v1.nn.bidirectional_dynamic_rnn'
+76:35: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+78:42: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+80:40: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+82:45: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+84:35: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+86:33: INFO: Renamed 'tf.placeholder' to 'tf.compat.v1.placeholder'
+90:22: INFO: Changing tf.contrib.layers xavier initializer to a tf.compat.v1.keras.initializers.VarianceScaling and converting arguments.
+
+98:17: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+99:51: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+99:51: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+103:38: INFO: Added keywords to args of function 'tf.nn.embedding_lookup'
+103:38: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+110:17: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+114:48: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+114:66: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+118:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+119:43: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+119:43: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+124:30: INFO: Added keywords to args of function 'tf.nn.embedding_lookup'
+124:30: WARNING: tf.nn.embedding_lookup requires manual check. `partition_strategy` has been removed from tf.nn.embedding_lookup.  The 'div' strategy will be used by default.
+130:17: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+144:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+145:36: INFO: Changing keep_prob arg of tf.nn.dropout to rate, and recomputing value.
+
+162:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+168:40: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+168:58: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+172:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+174:16: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+174:16: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+183:22: INFO: Renamed 'tf.nn.xw_plus_b' to 'tf.compat.v1.nn.xw_plus_b'
+187:41: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+187:59: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+189:13: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+190:16: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+190:16: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+199:21: INFO: Renamed 'tf.nn.xw_plus_b' to 'tf.compat.v1.nn.xw_plus_b'
+201:31: INFO: Added keywords to args of function 'tf.argmax'
+204:41: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+204:59: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+209:17: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+213:34: INFO: Added keywords to args of function 'tf.shape'
+227:34: INFO: Added keywords to args of function 'tf.shape'
+243:43: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+243:43: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+248:36: ERROR: Using member tf.contrib.crf.crf_log_likelihood in deprecated module tf.contrib. tf.contrib.crf.crf_log_likelihood cannot be converted automatically. tf.contrib will not be distributed with TensorFlow 2.0, please consider an alternative in non-contrib TensorFlow, a community-maintained repository such as tensorflow/addons, or fork the required code.
+252:29: INFO: Added keywords to args of function 'tf.reduce_mean'
+254:37: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+254:55: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+259:17: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+260:45: WARNING: tf.get_variable requires manual check. tf.get_variable returns ResourceVariables by default in 2.0, which have well-defined semantics and are stricter about shapes. You can disable this behavior by passing use_resource=False, or by calling tf.compat.v1.disable_resource_variables().
+260:45: INFO: Renamed 'tf.get_variable' to 'tf.compat.v1.get_variable'
+265:37: INFO: Renamed 'tf.get_collection' to 'tf.compat.v1.get_collection'
+265:55: INFO: Renamed 'tf.GraphKeys' to 'tf.compat.v1.GraphKeys'
+269:17: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+270:25: INFO: Changing labels arg of tf.nn.softmax_cross_entropy_with_logits to tf.stop_gradient(labels). Please check this transformation.
+
+272:29: INFO: Added keywords to args of function 'tf.reduce_mean'
+273:17: INFO: Renamed 'tf.variable_scope' to 'tf.compat.v1.variable_scope'
+275:20: INFO: Added keywords to args of function 'tf.argmax'
+276:32: INFO: Added keywords to args of function 'tf.reduce_mean'
+280:26: INFO: tf.summary.merge_all requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+280:26: INFO: Renamed 'tf.summary.merge_all' to 'tf.compat.v1.summary.merge_all'
+282:21: INFO: Renamed 'tf.train.Saver' to 'tf.compat.v1.train.Saver'
+291:29: INFO: Renamed 'tf.train.AdamOptimizer' to 'tf.compat.v1.train.AdamOptimizer'
+293:29: INFO: Renamed 'tf.train.GradientDescentOptimizer' to 'tf.compat.v1.train.GradientDescentOptimizer'
+295:29: INFO: Renamed 'tf.train.AdadeltaOptimizer' to 'tf.compat.v1.train.AdadeltaOptimizer'
+457:21: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+478:21: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+480:21: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+482:21: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+484:21: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+486:21: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+488:21: INFO: Renamed 'tf.variables_initializer' to 'tf.compat.v1.variables_initializer'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/neuromodel.py'
+ outputting to 'neuroner/neuromodel.py'
+--------------------------------------------------------------------------------
+
+471:23: INFO: Renamed 'tf.ConfigProto' to 'tf.compat.v1.ConfigProto'
+478:20: INFO: Renamed 'tf.Session' to 'tf.compat.v1.Session'
+483:26: INFO: Renamed 'tf.global_variables_initializer' to 'tf.compat.v1.global_variables_initializer'
+637:36: INFO: tf.summary.FileWriter requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+637:36: INFO: Renamed 'tf.summary.FileWriter' to 'tf.compat.v1.summary.FileWriter'
+641:27: INFO: tf.summary.FileWriter requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+641:27: INFO: Renamed 'tf.summary.FileWriter' to 'tf.compat.v1.summary.FileWriter'
+713:16: WARNING: *.save requires manual check. (This warning is only applicable if the code saves a tf.Keras model) Keras model.save now saves to the Tensorflow SavedModel format by default, instead of HDF5. To continue saving to HDF5, add the argument save_format='h5' to the save() function.
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/utils.py'
+ outputting to 'neuroner/utils.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/utils_tf.py'
+ outputting to 'neuroner/utils_tf.py'
+--------------------------------------------------------------------------------
+
+8:9: INFO: `name` passed to `name_scope`. Because you may be re-entering an existing scope, it is not safe to convert automatically,  the v2 name_scope does not support re-entering scopes by name.
+
+8:9: INFO: Renamed 'tf.name_scope' to 'tf.compat.v1.name_scope'
+9:15: INFO: Added keywords to args of function 'tf.reduce_mean'
+10:8: INFO: tf.summary.scalar requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+10:8: INFO: Renamed 'tf.summary.scalar' to 'tf.compat.v1.summary.scalar'
+11:13: INFO: `name` passed to `name_scope`. Because you may be re-entering an existing scope, it is not safe to convert automatically,  the v2 name_scope does not support re-entering scopes by name.
+
+11:13: INFO: Renamed 'tf.name_scope' to 'tf.compat.v1.name_scope'
+12:29: INFO: Added keywords to args of function 'tf.reduce_mean'
+13:8: INFO: tf.summary.scalar requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+13:8: INFO: Renamed 'tf.summary.scalar' to 'tf.compat.v1.summary.scalar'
+14:8: INFO: tf.summary.scalar requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+14:8: INFO: Renamed 'tf.summary.scalar' to 'tf.compat.v1.summary.scalar'
+14:33: INFO: Added keywords to args of function 'tf.reduce_max'
+15:8: INFO: tf.summary.scalar requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+15:8: INFO: Renamed 'tf.summary.scalar' to 'tf.compat.v1.summary.scalar'
+15:33: INFO: Added keywords to args of function 'tf.reduce_min'
+16:8: INFO: tf.summary.histogram requires manual check. The TF 1.x summary API cannot be automatically migrated to TF 2.0, so symbols have been converted to tf.compat.v1.summary.* and must be migrated manually. Typical usage will only require changes to the summary writing logic, not to individual calls like scalar(). For examples of the new summary API, see the Effective TF 2.0 migration document or check the TF 2.0 TensorBoard tutorials.
+16:8: INFO: Renamed 'tf.summary.histogram' to 'tf.compat.v1.summary.histogram'
+19:13: INFO: Renamed 'tf.assign' to 'tf.compat.v1.assign'
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/__main__.py'
+ outputting to 'neuroner/__main__.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/evaluate.py'
+ outputting to 'neuroner/evaluate.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/dataset.py'
+ outputting to 'neuroner/dataset.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/conll_to_brat.py'
+ outputting to 'neuroner/conll_to_brat.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/utils_plots.py'
+ outputting to 'neuroner/utils_plots.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+
+--------------------------------------------------------------------------------
+Processing file 'neuroner_old/data/i2b2_2014_deid/xml_to_brat.py'
+ outputting to 'neuroner/data/i2b2_2014_deid/xml_to_brat.py'
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+LOGS WITH TF2
+--------------------------------------------------------------------------------
+Bad key "text.kerning_factor" on line 4 in
+/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/matplotlib/mpl-data/stylelib/_classic_test_patch.mplstyle.
+You probably need to get an updated matplotlibrc file from
+https://github.com/matplotlib/matplotlib/blob/v3.1.3/matplotlibrc.template
+or from the matplotlib source distribution
+2021-08-16 19:21:29.882579: W tensorflow/stream_executor/platform/default/dso_loader.cc:64] Could not load dynamic library 'libcudart.so.11.0'; dlerror: libcudart.so.11.0: cannot open shared object file: No such file or directory; LD_LIBRARY_PATH: /usr/local/cuda-10.0/lib64:/usr/local/cuda-10.0/extras/CUPTI/lib64:/usr/local/cuda-10.0/lib:/usr/local/cuda-10.0/efa/lib:/opt/amazon/efa/lib:/opt/amazon/efa/lib64:/usr/lib64/openmpi/lib/:/usr/local/lib:/usr/lib:/usr/local/mpi/lib:/lib/:/usr/lib64/openmpi/lib/:/usr/local/lib:/usr/lib:/usr/local/mpi/lib:/lib/::/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow
+2021-08-16 19:21:29.882619: I tensorflow/stream_executor/cuda/cudart_stub.cc:29] Ignore above cudart dlerror if you do not have a GPU set up on your machine.
+{'character_embedding_dimension': 25,
+ 'character_lstm_hidden_state_dimension': 25,
+ 'check_for_digits_replaced_with_zeros': 1,
+ 'check_for_lowercase': 1,
+ 'dataset_text_folder': './neuroner/data/i2b2',
+ 'debug': 0,
+ 'dropout_rate': 0.5,
+ 'experiment_name': 'test',
+ 'freeze_token_embeddings': 0,
+ 'gradient_clipping_value': 5.0,
+ 'learning_rate': 0.005,
+ 'load_all_pretrained_token_embeddings': 0,
+ 'load_only_pretrained_token_embeddings': 0,
+ 'main_evaluation_mode': 'conll',
+ 'maximum_number_of_epochs': 100,
+ 'number_of_cpu_threads': 8,
+ 'number_of_gpus': 0,
+ 'optimizer': 'sgd',
+ 'output_folder': './neuroner/output',
+ 'output_scores': 0,
+ 'parameters_filepath': './parameters.ini',
+ 'patience': 10,
+ 'plot_format': 'pdf',
+ 'pretrained_model_folder': './neuroner/model',
+ 'reload_character_embeddings': 1,
+ 'reload_character_lstm': 1,
+ 'reload_crf': 1,
+ 'reload_feedforward': 1,
+ 'reload_token_embeddings': 1,
+ 'reload_token_lstm': 1,
+ 'remap_unknown_tokens_to_unk': 1,
+ 'spacylanguage': 'en',
+ 'tagging_format': 'bioes',
+ 'token_embedding_dimension': 100,
+ 'token_lstm_hidden_state_dimension': 100,
+ 'token_pretrained_embedding_filepath': './neuroner/data/word_vectors/glove.6B.100d.txt',
+ 'tokenizer': 'spacy',
+ 'train_model': 0,
+ 'use_character_lstm': 1,
+ 'use_crf': 1,
+ 'use_pretrained_model': 1,
+ 'verbose': 0}
+Checking compatibility between CONLL and BRAT for train_spacy set ... Done.
+Checking validity of CONLL BIOES format... Done.
+Checking compatibility between CONLL and BRAT for valid_spacy set ... Done.
+Checking validity of CONLL BIOES format... Done.
+Checking compatibility between CONLL and BRAT for test_spacy set ... Done.
+Checking validity of CONLL BIOES format... Done.
+WARNING: train and valid set exist in the specified dataset folder, 
+                but train_model is set to FALSE: ./neuroner/data/i2b2
+Load dataset... done (129.20 seconds)
+2021-08-16 19:23:54.197678: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+2021-08-16 19:23:54.803256: E tensorflow/stream_executor/cuda/cuda_driver.cc:271] failed call to cuInit: CUDA_ERROR_NO_DEVICE: no CUDA-capable device is detected
+2021-08-16 19:23:54.803331: I tensorflow/stream_executor/cuda/cuda_diagnostics.cc:156] kernel driver does not appear to be running on this host (ip-172-31-40-77): /proc/driver/nvidia/version does not exist
+WARNING:tensorflow:From /home/ec2-user/AI-Master/neuroner/entity_lstm.py:52: bidirectional_dynamic_rnn (from tensorflow.python.ops.rnn) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `keras.layers.Bidirectional(keras.layers.RNN(cell))`, which is equivalent to this API
+WARNING:tensorflow:From /home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/ops/rnn.py:447: dynamic_rnn (from tensorflow.python.ops.rnn) is deprecated and will be removed in a future version.
+Instructions for updating:
+Please use `keras.layers.RNN(cell)`, which is equivalent to this API
+WARNING:tensorflow:From /home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/keras/layers/legacy_rnn/rnn_cell_impl.py:979: calling Zeros.__init__ (from tensorflow.python.ops.init_ops) with dtype is deprecated and will be removed in a future version.
+Instructions for updating:
+Call initializer instance with the dtype argument instead of passing it to the constructor
+2021-08-16 19:24:02.968448: W tensorflow/core/framework/op_kernel.cc:1692] OP_REQUIRES failed at save_restore_v2_ops.cc:207 : Not found: Key character_lstm/bidirectional_LSTM/bidirectional_rnn/bw/lstm_cell/bias not found in checkpoint
+Traceback (most recent call last):
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1375, in _do_call
+    return fn(*args)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1360, in _run_fn
+    target_list, run_metadata)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1453, in _call_tf_sessionrun
+    run_metadata)
+tensorflow.python.framework.errors_impl.NotFoundError: Key character_lstm/bidirectional_LSTM/bidirectional_rnn/bw/lstm_cell/bias not found in checkpoint
+	 [[{{node save/RestoreV2}}]]
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 1304, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 968, in run
+    run_metadata_ptr)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1191, in _run
+    feed_dict_tensor, options, run_metadata)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1369, in _do_run
+    run_metadata)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/client/session.py", line 1394, in _do_call
+    raise type(e)(node_def, op, message)  # pylint: disable=no-value-for-parameter
+tensorflow.python.framework.errors_impl.NotFoundError: Key character_lstm/bidirectional_LSTM/bidirectional_rnn/bw/lstm_cell/bias not found in checkpoint
+	 [[node save/RestoreV2 (defined at /home/ec2-user/AI-Master/neuroner/entity_lstm.py:289) ]]
+
+Original stack trace for 'save/RestoreV2':
+  File "app_webapi.py", line 44, in <module>
+    nn = neuromodel.NeuroNER()
+  File "/home/ec2-user/AI-Master/neuroner/neuromodel.py", line 482, in __init__
+    self.model = EntityLSTM(self.modeldata, self.parameters)
+  File "/home/ec2-user/AI-Master/neuroner/entity_lstm.py", line 289, in __init__
+    self.saver = tf.compat.v1.train.Saver(max_to_keep=parameters['maximum_number_of_epochs'])
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 836, in __init__
+    self.build()
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 848, in build
+    self._build(self._filename, build_save=True, build_restore=True)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 886, in _build
+    build_restore=build_restore)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 516, in _build_internal
+    restore_sequentially, reshape)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 336, in _AddRestoreOps
+    restore_sequentially)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 583, in bulk_restore
+    return io_ops.restore_v2(filename_tensor, names, slices, dtypes)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/ops/gen_io_ops.py", line 1493, in restore_v2
+    name=name)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 3569, in _create_op_internal
+    op_def=op_def)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 2045, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/py_checkpoint_reader.py", line 71, in get_tensor
+    self, compat.as_bytes(tensor_str))
+RuntimeError: Key _CHECKPOINTABLE_OBJECT_GRAPH not found in checkpoint
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 1314, in restore
+    names_to_keys = object_graph_key_mapping(save_path)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 1632, in object_graph_key_mapping
+    object_graph_string = reader.get_tensor(trackable.OBJECT_GRAPH_PROTO_KEY)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/py_checkpoint_reader.py", line 75, in get_tensor
+    error_translator(e)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/py_checkpoint_reader.py", line 35, in error_translator
+    raise errors_impl.NotFoundError(None, None, error_message)
+tensorflow.python.framework.errors_impl.NotFoundError: Key _CHECKPOINTABLE_OBJECT_GRAPH not found in checkpoint
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "app_webapi.py", line 44, in <module>
+    nn = neuromodel.NeuroNER()
+  File "/home/ec2-user/AI-Master/neuroner/neuromodel.py", line 487, in __init__
+    self.modeldata, self.sess, token_to_vector=token_to_vector)
+  File "/home/ec2-user/AI-Master/neuroner/entity_lstm.py", line 436, in restore_from_pretrained_model
+    self.saver.restore(sess, pretrained_model_checkpoint_filepath) 
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 1320, in restore
+    err, "a Variable name or other graph key that is missing")
+tensorflow.python.framework.errors_impl.NotFoundError: Restoring from checkpoint failed. This is most likely due to a Variable name or other graph key that is missing from the checkpoint. Please ensure that you have not altered the graph expected based on the checkpoint. Original error:
+
+Key character_lstm/bidirectional_LSTM/bidirectional_rnn/bw/lstm_cell/bias not found in checkpoint
+	 [[node save/RestoreV2 (defined at /home/ec2-user/AI-Master/neuroner/entity_lstm.py:289) ]]
+
+Original stack trace for 'save/RestoreV2':
+  File "app_webapi.py", line 44, in <module>
+    nn = neuromodel.NeuroNER()
+  File "/home/ec2-user/AI-Master/neuroner/neuromodel.py", line 482, in __init__
+    self.model = EntityLSTM(self.modeldata, self.parameters)
+  File "/home/ec2-user/AI-Master/neuroner/entity_lstm.py", line 289, in __init__
+    self.saver = tf.compat.v1.train.Saver(max_to_keep=parameters['maximum_number_of_epochs'])
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 836, in __init__
+    self.build()
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 848, in build
+    self._build(self._filename, build_save=True, build_restore=True)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 886, in _build
+    build_restore=build_restore)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 516, in _build_internal
+    restore_sequentially, reshape)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 336, in _AddRestoreOps
+    restore_sequentially)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/training/saver.py", line 583, in bulk_restore
+    return io_ops.restore_v2(filename_tensor, names, slices, dtypes)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/ops/gen_io_ops.py", line 1493, in restore_v2
+    name=name)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/framework/op_def_library.py", line 750, in _apply_op_helper
+    attrs=attr_protos, op_def=op_def)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 3569, in _create_op_internal
+    op_def=op_def)
+  File "/home/ec2-user/anaconda3/envs/tensorflow_p36/lib/python3.6/site-packages/tensorflow/python/framework/ops.py", line 2045, in __init__
+    self._traceback = tf_stack.extract_stack_for_node(self._c_op)
+
